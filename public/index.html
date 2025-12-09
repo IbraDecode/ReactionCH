@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React WA Channel | Simple Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #25D366;
+            --primary-dark: #128C7E;
+            --success: #10B981;
+            --danger: #EF4444;
+            --light: #F8FAFC;
+            --dark: #1E293B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+            background: var(--light);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .emoji-btn {
+            aspect-ratio: 1;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            background: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .emoji-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success {
+            background: #D1FAE5;
+            color: #065F46;
+            border-left: 4px solid var(--success);
+        }
+
+        .error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.hiding {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        @keyframes slideOut {
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #94A3B8;
+        }
+
+        .footer {
+            padding: 20px;
+            background: var(--light);
+            border-top: 1px solid #E2E8F0;
+            text-align: center;
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        .creator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .creator span {
+            padding: 5px 10px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #E2E8F0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .emoji-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ React WA Channel</h1>
+            <p>Gas langsung kirim reaction!</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-group">
+                <label>🔗 Link Postingan</label>
+                <input type="text" id="link" placeholder="https://whatsapp.com/channel/...">
+            </div>
+            
+            <div class="input-group">
+                <label>😎 Emoji Reaction</label>
+                <textarea id="emoji" placeholder="Pilih emoji di bawah atau ketik manual"></textarea>
+                
+                <div class="emoji-grid" id="emojiGrid"></div>
+            </div>
+            
+            <button class="btn" id="sendBtn" onclick="sendReaction()">
+                <i class="fas fa-paper-plane"></i>
+                Kirim Sekarang
+            </button>
+            
+            <div id="result" class="result"></div>
+        </div>
+        
+        <div class="footer">
+            <p>Kalo error, berarti credit habis. Tunggu aja di update.</p>
+            <div class="creator">
+                <span>Web: Ibra Decode</span>
+                <span>API: Hazel</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Emoji list
+        const emojis = ['👍', '❤️', '😍', '🎉', '🙏', '😂', '🔥', '👏', '😊', '🤔', '😮', '😢', '😡', '🤯', '🥳'];
+        
+        // Fill emoji grid
+        const emojiGrid = document.getElementById('emojiGrid');
+        emojis.forEach(emoji => {
+            const btn = document.createElement('button');
+            btn.className = 'emoji-btn';
+            btn.textContent = emoji;
+            btn.onclick = () => {
+                const textarea = document.getElementById('emoji');
+                textarea.value = textarea.value ? textarea.value + ' ' + emoji : emoji;
+                textarea.focus();
+            };
+            emojiGrid.appendChild(btn);
+        });
+
+        // Toast notification system
+        function showToast(type, message, duration = 5000) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' ? '✅' : '❌';
+            toast.innerHTML = `
+                <span style="font-size: 20px;">${icon}</span>
+                <div style="flex: 1; font-size: 14px;">${message}</div>
+                <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            if (duration > 0) {
+                setTimeout(() => {
+                    toast.classList.add('hiding');
+                    setTimeout(() => toast.remove(), 300);
+                }, duration);
+            }
+        }
+
+        // Send reaction
+        async function sendReaction() {
+            const link = document.getElementById('link').value.trim();
+            const emoji = document.getElementById('emoji').value.trim();
+            const btn = document.getElementById('sendBtn');
+            
+            if (!link) {
+                showToast('error', 'Masukin link dulu dong!');
+                return;
+            }
+            
+            if (!emoji) {
+                showToast('error', 'Kasih emoji lah, biar rame!');
+                return;
+            }
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Lagi kirim...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/react', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        post_link: link,
+                        reacts: emoji
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast('success', 'Gas! Reaction berhasil dikirim!');
+                    
+                    // Update stats
+                    const total = parseInt(localStorage.getItem('totalSent') || '0') + 1;
+                    localStorage.setItem('totalSent', total);
+                    
+                } else {
+                    showToast('error', data.error || 'Yah gagal nih, coba lagi ya!');
+                }
+                
+            } catch (error) {
+                showToast('error', 'Waduh error nih, cek koneksi atau coba lagi nanti!');
+                console.error('Error:', error);
+                
+            } finally {
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Sekarang';
+                btn.disabled = false;
+            }
+        }
+
+        // Enter key support
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                sendReaction();
+            }
+        });
+
+        // Quick emoji sets
+        window.setEmojiSet = function(set) {
+            const textarea = document.getElementById('emoji');
+            
+            const sets = {
+                like: '👍 👍 👍 👍 👍',
+                love: '❤️ ❤️ ❤️ ❤️ ❤️',
+                celebrate: '🎉 🎉 🎉 🎉 🎉',
+                clear: ''
+            };
+            
+            if (set === 'clear') {
+                textarea.value = '';
+            } else if (sets[set]) {
+                textarea.value = sets[set];
+            }
+            
+            textarea.focus();
+        };
+
+        // Load stats
+        window.addEventListener('load', () => {
+            const total = localStorage.getItem('totalSent') || '0';
+            // Bisa ditampilkan di UI kalau mau
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "react-ch-wa",
+  "version": "1.0.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node api/react.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
