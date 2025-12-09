@@ -1,190 +1,382 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React WA Channel | Simple Tools</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <title>React CH - Kirim Reaction WA Channel</title>
+    <meta name="description" content="Kirim reaction emoji ke WhatsApp Channel">
+    
+    <link rel="icon" href="https://img.icons8.com/fluency/96/whatsapp.png">
+    
     <style>
         :root {
             --primary: #25D366;
             --primary-dark: #128C7E;
             --success: #10B981;
-            --danger: #EF4444;
-            --light: #F8FAFC;
-            --dark: #1E293B;
+            --error: #EF4444;
+            --warning: #F59E0B;
+            --bg: #000000;
+            --card: #1c1c1e;
+            --text: #ffffff;
+            --text-muted: #8e8e93;
+            --border: #38383a;
+            --radius: 16px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            width: 100%;
+        .app {
             max-width: 500px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-            overflow: hidden;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--bg);
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 30px;
+            padding: 40px 25px 25px;
             text-align: center;
+            border-bottom: 1px solid var(--border);
         }
 
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
+        .logo {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
         }
 
-        .header p {
-            opacity: 0.9;
-            font-size: 14px;
+        .logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
         }
 
-        .content {
-            padding: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
+        .title {
+            font-size: 32px;
+            font-weight: 800;
             margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, var(--primary), #34b7f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .link-section {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .input-label {
+            display: block;
+            font-size: 15px;
             font-weight: 600;
-            color: var(--dark);
-            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--text);
         }
 
-        input, textarea {
+        .link-input {
             width: 100%;
-            padding: 14px;
-            border: 2px solid #E2E8F0;
-            border-radius: 10px;
+            padding: 16px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
             font-size: 16px;
-            transition: 0.3s;
-            background: var(--light);
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        input:focus, textarea:focus {
             outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .link-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+
+        .link-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-hint {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .preview-section {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preview-label {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .emoji-preview {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px;
+            min-height: 120px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 28px;
+            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+        }
+
+        .empty-preview {
+            color: var(--text-muted);
+            font-size: 16px;
+            opacity: 0.5;
+        }
+
+        .keyboard-section {
+            padding: 20px;
+        }
+
+        .category-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .emoji-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            margin-top: 10px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .emoji-btn {
             aspect-ratio: 1;
-            border: 2px solid #E2E8F0;
-            border-radius: 8px;
-            background: white;
-            font-size: 20px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 15px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
         }
 
         .emoji-btn:hover {
-            background: var(--primary);
-            color: white;
+            background: rgba(37, 211, 102, 0.15);
             border-color: var(--primary);
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0 30px;
+        }
+
+        .action-btn {
+            padding: 16px 10px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .action-icon {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .clear-btn {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .copy-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+        }
+
+        .send-section {
+            padding: 0 25px;
+            margin: 20px 0 30px;
+        }
+
+        .send-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
 
-        .btn:hover {
+        .send-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
         }
 
-        .btn:disabled {
-            opacity: 0.7;
+        .send-btn:disabled {
+            opacity: 0.6;
             cursor: not-allowed;
-            transform: none !important;
         }
 
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            animation: slideDown 0.3s ease;
+        .footer {
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .creators {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
         }
 
-        .success {
-            background: #D1FAE5;
-            color: #065F46;
-            border-left: 4px solid var(--success);
+        .creator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
 
-        .error {
-            background: #FEE2E2;
-            color: #991B1B;
-            border-left: 4px solid var(--danger);
+        .creator-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
         }
 
-        .toast {
+        .creator-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .creator-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Improved Toast */
+        .toast-container {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .toast {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--error);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
         }
 
         @keyframes slideIn {
@@ -192,132 +384,378 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
-        .toast.hiding {
-            animation: slideOut 0.3s ease forwards;
-        }
-
         @keyframes slideOut {
             to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .toast.hiding {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+
+        .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon { color: var(--success); }
+        .toast.error .toast-icon { color: var(--error); }
+        .toast.warning .toast-icon { color: var(--warning); }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
         .toast-close {
             background: none;
             border: none;
-            font-size: 18px;
+            color: var(--text-muted);
             cursor: pointer;
-            color: #94A3B8;
-        }
-
-        .footer {
-            padding: 20px;
-            background: var(--light);
-            border-top: 1px solid #E2E8F0;
-            text-align: center;
-            font-size: 13px;
-            color: #64748B;
-        }
-
-        .creator {
-            display: inline-flex;
+            font-size: 18px;
+            padding: 2px;
+            width: 24px;
+            height: 24px;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 10px;
+            justify-content: center;
+            border-radius: 6px;
+            transition: background 0.2s;
+            flex-shrink: 0;
         }
 
-        .creator span {
-            padding: 5px 10px;
-            background: white;
-            border-radius: 20px;
-            border: 1px solid #E2E8F0;
+        .toast-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
         }
 
-        @media (max-width: 600px) {
-            .container {
-                margin: 10px;
-            }
-            
+        @media (max-width: 480px) {
             .header {
-                padding: 20px;
+                padding: 30px 20px 20px;
             }
             
-            .content {
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .link-section,
+            .preview-section {
                 padding: 20px;
             }
             
             .emoji-grid {
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            
+            .emoji-btn {
+                font-size: 24px;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .action-btn {
+                padding: 14px 8px;
+                font-size: 13px;
+            }
+            
+            .creators {
+                gap: 20px;
+            }
+            
+            .toast-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>⚡ React WA Channel</h1>
-            <p>Gas langsung kirim reaction!</p>
-        </div>
-        
-        <div class="content">
-            <div class="input-group">
-                <label>🔗 Link Postingan</label>
-                <input type="text" id="link" placeholder="https://whatsapp.com/channel/...">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- App -->
+    <div class="app">
+        <header class="header">
+            <div class="logo">
+                <img src="https://img.icons8.com/fluency/96/whatsapp.png" alt="WhatsApp">
             </div>
-            
-            <div class="input-group">
-                <label>😎 Emoji Reaction</label>
-                <textarea id="emoji" placeholder="Pilih emoji di bawah atau ketik manual"></textarea>
+            <h1 class="title">React CH</h1>
+            <p class="subtitle">Kirim reaction ke WhatsApp Channel</p>
+        </header>
+
+        <div class="link-section">
+            <label class="input-label">Link Channel WhatsApp</label>
+            <input type="text" 
+                   class="link-input" 
+                   id="linkInput" 
+                   placeholder="https://whatsapp.com/channel/..."
+                   autocomplete="off">
+            <p class="input-hint">Copy link dari postingan channel WhatsApp</p>
+        </div>
+
+        <div class="preview-section">
+            <div class="preview-label">Emoji yang Dipilih</div>
+            <div class="emoji-preview" id="emojiPreview">
+                <div class="empty-preview">Pilih emoji di bawah</div>
+            </div>
+        </div>
+
+        <div class="keyboard-section">
+            <div class="category-label">Reaksi Populer</div>
+            <div class="emoji-grid" id="popularGrid"></div>
+
+            <div class="category-label">Quoic Reactions</div>
+            <div class="emoji-grid" id="quoicGrid"></div>
+
+            <div class="category-label">Special Reactions</div>
+            <div class="emoji-grid" id="specialGrid"></div>
+
+            <div class="quick-actions">
+                <button class="action-btn clear-btn" onclick="clearEmojis()">
+                    <span class="action-icon">×</span>
+                    <span>Hapus</span>
+                </button>
                 
-                <div class="emoji-grid" id="emojiGrid"></div>
+                <button class="action-btn copy-btn" onclick="copyEmojis()">
+                    <span class="action-icon">C</span>
+                    <span>Salin</span>
+                </button>
+                
+                <button class="action-btn" onclick="pasteEmojis()">
+                    <span class="action-icon">P</span>
+                    <span>Tempel</span>
+                </button>
             </div>
-            
-            <button class="btn" id="sendBtn" onclick="sendReaction()">
-                <i class="fas fa-paper-plane"></i>
-                Kirim Sekarang
+        </div>
+
+        <div class="send-section">
+            <button class="send-btn" id="sendBtn" onclick="sendReaction()">
+                Kirim Reaction
             </button>
-            
-            <div id="result" class="result"></div>
         </div>
-        
-        <div class="footer">
-            <p>Kalo error, berarti credit habis. Tunggu aja di update.</p>
-            <div class="creator">
-                <span>Web: Ibra Decode</span>
-                <span>API: Hazel</span>
+
+        <footer class="footer">
+            <div class="creators">
+                <div class="creator">
+                    <div class="creator-avatar">ID</div>
+                    <div>
+                        <div class="creator-name">Ibra Decode</div>
+                        <div class="creator-role">Web Developer</div>
+                    </div>
+                </div>
+                
+                <div class="creator">
+                    <div class="creator-avatar">H</div>
+                    <div>
+                        <div class="creator-name">Hazel</div>
+                        <div class="creator-role">API Provider</div>
+                    </div>
+                </div>
             </div>
-        </div>
+            
+            <p class="footer-text">
+                Jika error, credit habis. Tunggu update.
+            </p>
+        </footer>
     </div>
 
     <script>
-        // Emoji list
-        const emojis = ['👍', '❤️', '😍', '🎉', '🙏', '😂', '🔥', '👏', '😊', '🤔', '😮', '😢', '😡', '🤯', '🥳'];
-        
-        // Fill emoji grid
-        const emojiGrid = document.getElementById('emojiGrid');
-        emojis.forEach(emoji => {
-            const btn = document.createElement('button');
-            btn.className = 'emoji-btn';
-            btn.textContent = emoji;
-            btn.onclick = () => {
-                const textarea = document.getElementById('emoji');
-                textarea.value = textarea.value ? textarea.value + ' ' + emoji : emoji;
-                textarea.focus();
-            };
-            emojiGrid.appendChild(btn);
-        });
+        // Emoji database - menggunakan karakter emoji OS native
+        const EMOJI_DATABASE = {
+            popular: [
+                "👍", "❤️", "😍", "😂", "🔥", 
+                "🎉", "👏", "🙏", "😊", "😮", 
+                "😢", "😡", "🤔", "🥰", "😎", 
+                "🤩", "😇", "🤗", "😘", "🤑"
+            ],
+            quoic: [
+                "🤡", "🥸", "💀", "☠️", "👻", 
+                "🤖", "👽", "🧠", "🫀", "🦷", 
+                "🦴", "👀", "👅", "👃", "🫦", 
+                "🫂", "🫳", "🫴", "🤌", "🤏"
+            ],
+            special: [
+                "✨", "💯", "👌", "😎", "🤩", 
+                "🥰", "😇", "🤗", "😘", "🤑", 
+                "🤠", "🥴", "😴", "🤒", "🤧", 
+                "🤮", "🤢", "🥵", "🥶", "😈"
+            ]
+        };
 
-        // Toast notification system
+        // State
+        let selectedEmojis = [];
+        let copiedEmojis = '';
+
+        // Initialize
+        function init() {
+            loadEmojiKeyboard();
+            loadLastLink();
+            
+            document.getElementById('linkInput').focus();
+            
+            document.getElementById('linkInput').addEventListener('click', function() {
+                this.select();
+            });
+        }
+
+        // Load emoji keyboard dengan karakter emoji OS native
+        function loadEmojiKeyboard() {
+            // Clear grids first
+            document.getElementById('popularGrid').innerHTML = '';
+            document.getElementById('quoicGrid').innerHTML = '';
+            document.getElementById('specialGrid').innerHTML = '';
+            
+            // Load popular emojis
+            EMOJI_DATABASE.popular.forEach(emoji => {
+                const btn = document.createElement('button');
+                btn.className = 'emoji-btn';
+                btn.textContent = emoji;
+                btn.title = `Tambah ${emoji}`;
+                btn.onclick = () => addEmoji(emoji);
+                document.getElementById('popularGrid').appendChild(btn);
+            });
+            
+            // Load quoic emojis
+            EMOJI_DATABASE.quoic.forEach(emoji => {
+                const btn = document.createElement('button');
+                btn.className = 'emoji-btn';
+                btn.textContent = emoji;
+                btn.title = `Tambah ${emoji}`;
+                btn.onclick = () => addEmoji(emoji);
+                document.getElementById('quoicGrid').appendChild(btn);
+            });
+            
+            // Load special emojis
+            EMOJI_DATABASE.special.forEach(emoji => {
+                const btn = document.createElement('button');
+                btn.className = 'emoji-btn';
+                btn.textContent = emoji;
+                btn.title = `Tambah ${emoji}`;
+                btn.onclick = () => addEmoji(emoji);
+                document.getElementById('specialGrid').appendChild(btn);
+            });
+        }
+
+        // Add emoji - SUDAH BISA MULTI EMOJI
+        function addEmoji(emoji) {
+            selectedEmojis.push(emoji);
+            updatePreview();
+            showToast('success', `Emoji ${emoji} ditambahkan`);
+        }
+
+        // Clear all emojis
+        function clearEmojis() {
+            selectedEmojis = [];
+            updatePreview();
+            showToast('warning', 'Semua emoji dihapus');
+        }
+
+        // Copy emojis
+        function copyEmojis() {
+            if (selectedEmojis.length > 0) {
+                const text = selectedEmojis.join(', '); // PASTIKAN ADA KOMA
+                navigator.clipboard.writeText(text).then(() => {
+                    copiedEmojis = text;
+                    showToast('success', `${selectedEmojis.length} emoji disalin`);
+                });
+            } else {
+                showToast('error', 'Belum ada emoji yang dipilih');
+            }
+        }
+
+        // Paste emojis
+        function pasteEmojis() {
+            if (copiedEmojis) {
+                // Parse dengan handle koma dan spasi
+                const emojis = copiedEmojis.split(/[, ]+/).filter(e => e.trim());
+                if (emojis.length > 0) {
+                    selectedEmojis = [...selectedEmojis, ...emojis];
+                    updatePreview();
+                    showToast('success', `${emojis.length} emoji ditempel`);
+                } else {
+                    showToast('error', 'Tidak ada emoji yang valid');
+                }
+            } else {
+                showToast('error', 'Belum ada emoji yang disalin');
+            }
+        }
+
+        // Update preview
+        function updatePreview() {
+            const preview = document.getElementById('emojiPreview');
+            
+            if (selectedEmojis.length === 0) {
+                preview.innerHTML = '<div class="empty-preview">Pilih emoji di bawah</div>';
+            } else {
+                preview.innerHTML = selectedEmojis.join(' ');
+            }
+        }
+
+        // Load last link
+        function loadLastLink() {
+            const lastLink = localStorage.getItem('lastLink');
+            if (lastLink) {
+                document.getElementById('linkInput').value = lastLink;
+            }
+        }
+
+        // Save link
+        function saveLink() {
+            const link = document.getElementById('linkInput').value.trim();
+            if (link) {
+                localStorage.setItem('lastLink', link);
+            }
+        }
+
+        // Improved Toast System
         function showToast(type, message, duration = 5000) {
+            const toastContainer = document.getElementById('toastContainer');
+            
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             
-            const icon = type === 'success' ? '✅' : '❌';
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️'
+            };
+            
+            const titles = {
+                success: 'Berhasil',
+                error: 'Error',
+                warning: 'Perhatian'
+            };
+            
             toast.innerHTML = `
-                <span style="font-size: 20px;">${icon}</span>
-                <div style="flex: 1; font-size: 14px;">${message}</div>
-                <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+                <span class="toast-icon">${icons[type] || icons.info}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${titles[type] || 'Info'}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
             `;
             
-            document.body.appendChild(toast);
+            toastContainer.appendChild(toast);
             
             if (duration > 0) {
                 setTimeout(() => {
@@ -325,94 +763,111 @@
                     setTimeout(() => toast.remove(), 300);
                 }, duration);
             }
+            
+            return toast;
         }
 
-        // Send reaction
+        // Send reaction dengan format koma
         async function sendReaction() {
-            const link = document.getElementById('link').value.trim();
-            const emoji = document.getElementById('emoji').value.trim();
-            const btn = document.getElementById('sendBtn');
+            const link = document.getElementById('linkInput').value.trim();
+            const sendBtn = document.getElementById('sendBtn');
             
+            // Validation
             if (!link) {
-                showToast('error', 'Masukin link dulu dong!');
+                showToast('error', 'Masukkan link dulu ya');
+                document.getElementById('linkInput').focus();
                 return;
             }
             
-            if (!emoji) {
-                showToast('error', 'Kasih emoji lah, biar rame!');
+            if (selectedEmojis.length === 0) {
+                showToast('error', 'Pilih emoji dulu dong');
                 return;
             }
             
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Lagi kirim...';
-            btn.disabled = true;
+            if (!link.includes('whatsapp.com/channel/')) {
+                showToast('error', 'Link harus channel WhatsApp yang valid');
+                return;
+            }
+            
+            // Validasi emoji (pastikan tidak kosong)
+            const validEmojis = selectedEmojis.filter(emoji => emoji.trim());
+            if (validEmojis.length === 0) {
+                showToast('error', 'Emoji tidak valid');
+                return;
+            }
+            
+            saveLink();
+            
+            const originalText = sendBtn.textContent;
+            sendBtn.innerHTML = '<span class="loading"></span> Lagi kirim...';
+            sendBtn.disabled = true;
             
             try {
+                // FORMAT: emoji dipisah dengan koma dan spasi ", "
+                const emojiText = validEmojis.join(', ');
+                
                 const response = await fetch('/api/react', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         post_link: link,
-                        reacts: emoji
+                        reacts: emojiText // Format: "👍, ❤️, 😍"
                     })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    showToast('success', 'Gas! Reaction berhasil dikirim!');
+                    showToast('success', `${validEmojis.length} emoji berhasil dikirim! 🎉`);
                     
-                    // Update stats
-                    const total = parseInt(localStorage.getItem('totalSent') || '0') + 1;
-                    localStorage.setItem('totalSent', total);
+                    setTimeout(() => {
+                        selectedEmojis = [];
+                        updatePreview();
+                    }, 1000);
                     
                 } else {
-                    showToast('error', data.error || 'Yah gagal nih, coba lagi ya!');
+                    showToast('error', 'Gagal: ' + (data.error || 'Coba lagi ya'));
                 }
                 
             } catch (error) {
-                showToast('error', 'Waduh error nih, cek koneksi atau coba lagi nanti!');
                 console.error('Error:', error);
+                showToast('error', 'Error koneksi, coba lagi nanti');
                 
             } finally {
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Sekarang';
-                btn.disabled = false;
+                sendBtn.textContent = originalText;
+                sendBtn.disabled = false;
             }
         }
 
-        // Enter key support
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
                 sendReaction();
             }
-        });
-
-        // Quick emoji sets
-        window.setEmojiSet = function(set) {
-            const textarea = document.getElementById('emoji');
             
-            const sets = {
-                like: '👍 👍 👍 👍 👍',
-                love: '❤️ ❤️ ❤️ ❤️ ❤️',
-                celebrate: '🎉 🎉 🎉 🎉 🎉',
-                clear: ''
-            };
-            
-            if (set === 'clear') {
-                textarea.value = '';
-            } else if (sets[set]) {
-                textarea.value = sets[set];
+            if (e.key === 'Escape') {
+                clearEmojis();
             }
             
-            textarea.focus();
-        };
-
-        // Load stats
-        window.addEventListener('load', () => {
-            const total = localStorage.getItem('totalSent') || '0';
-            // Bisa ditampilkan di UI kalau mau
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                e.preventDefault();
+                copyEmojis();
+            }
+            
+            if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+                e.preventDefault();
+                pasteEmojis();
+            }
         });
+
+        // Auto-save link
+        document.getElementById('linkInput').addEventListener('input', saveLink);
+
+        // Initialize
+        window.addEventListener('load', init);
     </script>
 </body>
 </html>

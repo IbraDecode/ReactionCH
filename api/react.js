@@ -1,6 +1,15 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
+    // CORS Headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+    
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -10,10 +19,11 @@ export default async function handler(req, res) {
         
         if (!post_link || !reacts) {
             return res.status(400).json({ 
-                error: 'Post link dan emoji harus diisi' 
+                error: 'Link dan emoji harus diisi' 
             });
         }
 
+        // Gunakan environment variables
         const response = await axios.post(
             process.env.API_URL,
             {
@@ -31,17 +41,17 @@ export default async function handler(req, res) {
 
         res.status(200).json({
             success: true,
-            message: 'Reaction berhasil dikirim',
+            message: 'Gas! Reaction berhasil dikirim',
             data: response.data
         });
 
     } catch (error) {
-        console.error('Error:', error.response?.data || error.message);
+        console.error('API Error:', error.response?.data || error.message);
         
         res.status(500).json({
             success: false,
-            error: error.response?.data?.message || 'Gagal mengirim reaction',
-            details: error.message
+            error: 'Kalo error, berarti credit habis. Tunggu aja di update.',
+            details: error.response?.data?.message || error.message
         });
     }
 }

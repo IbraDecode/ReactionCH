@@ -12,12 +12,16 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/react",
       "dest": "/api/react.js"
     },
     {
       "src": "/(.*)",
       "dest": "/public/$1"
     }
-  ]
+  ],
+  "env": {
+    "API_KEY": "0265ae280a6b04e12d1b418aee94f3eb7cdb39f7181f1fcbdd28491a71d6a7f4",
+    "API_URL": "https://foreign-marna-sithaunarathnapromax-9a005c2e.koyeb.app/api/channel/react-to-post"
+  }
 }
